@@ -1,0 +1,382 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Create your account</title>
+    <style>
+      :root {
+        --indigo: #4f46e5;
+        --fuchsia: #c026d3;
+        --orange: #f97316;
+        --ink: #2e1065;
+        --muted: #64748b;
+        --field: #f5f3ff;
+        --error: #e11d48;
+        --gradient: linear-gradient(
+          90deg,
+          var(--indigo),
+          var(--fuchsia),
+          var(--orange)
+        );
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 24px;
+        font-family:
+          system-ui,
+          -apple-system,
+          "Segoe UI",
+          Roboto,
+          sans-serif;
+        background: linear-gradient(135deg, #ede9fe, #fdf2f8 50%, #fef3c7);
+        color: #0f172a;
+      }
+      .card {
+        width: 100%;
+        max-width: 448px;
+        overflow: hidden;
+        background: #fff;
+        border-radius: 24px;
+        box-shadow: 0 25px 50px -12px rgba(192, 38, 211, 0.3);
+      }
+      .stripe {
+        height: 8px;
+        background: var(--gradient);
+      }
+      .body {
+        padding: 40px;
+      }
+      h2 {
+        margin: 0;
+        font-size: 30px;
+        font-weight: 800;
+        letter-spacing: -0.02em;
+        color: #1e0a4a;
+      }
+      .sub {
+        margin: 8px 0 0;
+        color: var(--muted);
+      }
+      form {
+        margin-top: 32px;
+        display: grid;
+        gap: 20px;
+      }
+      label.field {
+        display: block;
+      }
+      .label {
+        display: block;
+        margin-bottom: 6px;
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--ink);
+      }
+      input[type="text"],
+      input[type="email"],
+      input[type="password"] {
+        width: 100%;
+        padding: 12px 16px;
+        font: inherit;
+        color: #0f172a;
+        background: var(--field);
+        border: 2px solid transparent;
+        border-radius: 16px;
+        outline: none;
+        transition:
+          background 0.15s,
+          border-color 0.15s,
+          box-shadow 0.15s;
+      }
+      input::placeholder {
+        color: #94a3b8;
+      }
+      input:focus {
+        background: #fff;
+        border-color: var(--fuchsia);
+        box-shadow: 0 0 0 4px #fae8ff;
+      }
+      .field.invalid input {
+        border-color: #fb7185;
+      }
+      .field.invalid input:focus {
+        box-shadow: 0 0 0 4px #ffe4e6;
+      }
+      .error {
+        display: none;
+        margin-top: 6px;
+        font-size: 14px;
+        font-weight: 500;
+        color: var(--error);
+      }
+      .invalid .error,
+      .terms-wrap.invalid .error {
+        display: block;
+      }
+      .pw-wrap {
+        position: relative;
+      }
+      .pw-wrap input {
+        padding-right: 68px;
+      }
+      .toggle {
+        position: absolute;
+        right: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        padding: 4px 8px;
+        font: inherit;
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--fuchsia);
+        background: none;
+        border: 0;
+        border-radius: 8px;
+        cursor: pointer;
+      }
+      .toggle:hover {
+        background: #fae8ff;
+      }
+      .toggle:focus-visible {
+        outline: 2px solid #f0abfc;
+      }
+      .meter {
+        display: flex;
+        gap: 6px;
+        margin-top: 12px;
+      }
+      .meter span {
+        flex: 1;
+        height: 8px;
+        border-radius: 999px;
+        background: #e2e8f0;
+        transition: background 0.2s;
+      }
+      .meter[data-level="1"] span:nth-child(-n + 1) {
+        background: #fb7185;
+      }
+      .meter[data-level="2"] span:nth-child(-n + 2) {
+        background: #fbbf24;
+      }
+      .meter[data-level="3"] span:nth-child(-n + 3) {
+        background: #34d399;
+      }
+      .rules {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin: 12px 0 0;
+        padding: 0;
+        list-style: none;
+      }
+      .rules li {
+        padding: 4px 12px;
+        font-size: 12px;
+        font-weight: 600;
+        color: #94a3b8;
+        background: #f1f5f9;
+        border-radius: 999px;
+        transition: all 0.2s;
+      }
+      .rules li::before {
+        content: "○ ";
+      }
+      .rules li.ok::before {
+        content: "✓
+";
+      }
+      .rules li.ok[data-rule="length"] {
+        background: #fce7f3;
+        color: #be185d;
+      }
+      .rules li.ok[data-rule="number"] {
+        background: #fef3c7;
+        color: #b45309;
+      }
+      .rules li.ok[data-rule="case"] {
+        background: #d1fae5;
+        color: #047857;
+      }
+      .terms {
+        display: flex;
+        gap: 12px;
+        align-items: flex-start;
+        font-size: 14px;
+        color: #475569;
+      }
+      .terms input {
+        margin-top: 3px;
+        width: 16px;
+        height: 16px;
+        accent-color: var(--fuchsia);
+      }
+      a {
+        color: var(--fuchsia);
+        font-weight: 600;
+        text-decoration: none;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+      a.alt {
+        color: var(--indigo);
+      }
+      button.submit {
+        width: 100%;
+        padding: 16px;
+        font: inherit;
+        font-weight: 700;
+        color: #fff;
+        background: var(--gradient);
+        border: 0;
+        border-radius: 16px;
+        cursor: pointer;
+        box-shadow: 0 10px 15px -3px rgba(192, 38, 211, 0.35);
+        transition: filter 0.15s;
+      }
+      button.submit:hover {
+        filter: brightness(1.1);
+      }
+      button.submit:focus-visible {
+        outline: 4px solid #f5d0fe;
+      }
+      button.submit:disabled {
+        opacity: 0.7;
+        cursor: not-allowed;
+      }
+      .login {
+        margin: 32px 0 0;
+        text-align: center;
+        font-size: 14px;
+        color: var(--muted);
+      }
+      .login a {
+        font-weight: 700;
+      }
+      .success {
+        display: none;
+        padding: 40px;
+        text-align: center;
+      }
+      .success.show {
+        display: block;
+      }
+      .check {
+        width: 64px;
+        height: 64px;
+        margin: 0 auto 20px;
+        display: grid;
+        place-items: center;
+        color: #fff;
+        font-size: 32px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #34d399, #22d3ee);
+      }
+      .success h2 {
+        font-size: 24px;
+        font-weight: 700;
+        color: var(--ink);
+      }
+      .success p {
+        margin: 8px 0 0;
+        color: #475569;
+      }
+      .success strong {
+        color: var(--fuchsia);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <div class="stripe"></div>
+
+      <div class="body" id="formView">
+        <h2>Create your account</h2>
+        <p class="sub">Free for 14 days. No credit card needed.</p>
+
+        <form id="signup" novalidate>
+          <label class="field" id="f-name">
+            <span class="label">Full name</span>
+            <input
+              type="text"
+              id="name"
+              placeholder="Ada Lovelace"
+              autocomplete="name"
+            />
+            <span class="error">Enter your full name.</span>
+          </label>
+
+          <label class="field" id="f-email">
+            <span class="label">Work email</span>
+            <input
+              type="email"
+              id="email"
+              placeholder="you@company.com"
+              autocomplete="email"
+            />
+            <span class="error"
+              >Enter a valid email address, like you@example.com.</span
+            >
+          </label>
+
+          <div>
+            <label class="field" id="f-password">
+              <span class="label">Password</span>
+              <div class="pw-wrap">
+                <input
+                  type="password"
+                  id="password"
+                  placeholder="Create a password"
+                  autocomplete="new-password"
+                />
+                <button type="button" class="toggle" id="toggle">Show</button>
+              </div>
+              <span class="error"
+                >Your password doesn’t meet all the requirements yet.</span
+              >
+            </label>
+            <div class="meter" id="meter" data-level="0">
+              <span></span><span></span><span></span>
+            </div>
+            <ul class="rules" id="rules">
+              <li data-rule="length">8+ characters</li>
+              <li data-rule="number">A number</li>
+              <li data-rule="case">Upper &amp; lower case</li>
+            </ul>
+          </div>
+
+          <div class="terms-wrap" id="f-terms">
+            <label class="terms">
+              <input type="checkbox" id="terms" />
+              <span
+                >I agree to the <a href="#">Terms</a> and
+                <a href="#" class="alt">Privacy Policy</a>.</span
+              >
+            </label>
+            <span class="error">Accept the terms to continue.</span>
+          </div>
+
+          <button type="submit" class="submit" id="submit">
+            Create account
+          </button>
+        </form>
+
+        <p class="login">Already have an account? <a href="#">Log in</a></p>
+      </div>
+
+      <div class="success" id="successView">
+        <div class="check">✓</div>
+        <h2>Account created</h2>
+        <p>We sent a confirmation link to <strong id="sentTo"></strong>.</p>
+      </div>
+    </div>
+  </body>
+</html>
