@@ -1,0 +1,159 @@
+
+  /* ---------- 1. COLORS (change these to re-theme everything) ---------- */
+  :root {
+    --bg: #e0e0e0;        /* page + navbar color */
+    --light: #ffffff;     /* light shadow (top-left) */
+    --dark: #b8b8b8;      /* dark shadow (bottom-right) */
+    --text: #7a7a7a;      /* normal link color */
+    --text-strong: #1a1a1a; /* active / hover link color */
+    --accent: #ff6b35;    /* small highlight color */
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    background: var(--bg);
+    font-family: "Bricolage Grotesque", system-ui, sans-serif;
+    padding: 24px 16px;
+  }
+
+  /* ---------- 2. THE NAVBAR (raised bar) ---------- */
+  .navbar {
+    max-width: 1100px;          /* wide, like a real website */
+    margin: 0 auto;
+    padding: 10px 10px 10px 14px;
+    border-radius: 999px;
+    background: var(--bg);
+    box-shadow: 10px 10px 24px var(--dark), -10px -10px 24px var(--light);
+
+    display: flex;              /* logo | links | button in one row */
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    position: relative;
+  }
+
+  /* ---------- 3. LOGO ---------- */
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 700;
+    font-size: 20px;
+    color: var(--text-strong);
+    text-decoration: none;
+  }
+  .logo-icon {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: var(--bg);
+    box-shadow: 4px 4px 8px var(--dark), -4px -4px 8px var(--light);
+    display: grid;
+    place-items: center;
+  }
+  .logo-icon::after {            /* the little orange dot */
+    content: "";
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+
+  /* ---------- 4. LINKS (with the sliding highlight) ---------- */
+  .links {
+    list-style: none;
+    margin: 0;
+    padding: 6px;
+    display: flex;
+    position: relative;
+    border-radius: 999px;
+    /* "pressed in" look */
+    box-shadow: inset 5px 5px 10px var(--dark), inset -5px -5px 10px var(--light);
+  }
+
+  .links a {
+    position: relative;          /* sits above the highlight */
+    z-index: 1;
+    display: block;
+    padding: 12px 22px;
+    font-weight: 500;
+    color: var(--text);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .links a:hover,
+  .links a.active { color: var(--text-strong); }
+
+  /* the highlight that slides behind the links */
+  .highlight {
+    position: absolute;
+    top: 6px;
+    bottom: 6px;
+    left: 0;
+    width: 0;
+    border-radius: 999px;
+    background: var(--bg);
+    box-shadow: 4px 4px 9px var(--dark), -4px -4px 9px var(--light);
+    transition: left 0.3s ease, width 0.3s ease;   /* this makes it slide */
+  }
+
+  /* ---------- 5. BUTTON ---------- */
+  .btn {
+    padding: 13px 26px;
+    border: none;
+    border-radius: 999px;
+    background: var(--bg);
+    color: var(--text-strong);
+    font: 600 15px "Bricolage Grotesque", sans-serif;
+    cursor: pointer;
+    box-shadow: 5px 5px 10px var(--dark), -5px -5px 10px var(--light);
+    transition: box-shadow 0.15s;
+  }
+  .btn:active {                  /* pressed down */
+    box-shadow: inset 4px 4px 8px var(--dark), inset -4px -4px 8px var(--light);
+  }
+
+  /* ---------- 6. MENU BUTTON (only shows on phones) ---------- */
+  .menu-btn {
+    display: none;
+    width: 44px;
+    height: 44px;
+    border: none;
+    border-radius: 50%;
+    background: var(--bg);
+    font-size: 20px;
+    color: var(--text-strong);
+    cursor: pointer;
+    box-shadow: 4px 4px 8px var(--dark), -4px -4px 8px var(--light);
+  }
+
+  /* ---------- 7. MOBILE LAYOUT ---------- */
+  @media (max-width: 800px) {
+    .menu-btn { display: block; }
+    .navbar > .btn { display: none; }      /* hide the big button */
+    .highlight { display: none; }          /* no sliding on mobile */
+
+    .links {
+      display: none;                        /* hidden until opened */
+      position: absolute;
+      top: calc(100% + 16px);
+      left: 0;
+      right: 0;
+      flex-direction: column;
+      padding: 10px;
+      border-radius: 32px;
+      background: var(--bg);
+      box-shadow: 10px 10px 24px var(--dark), -10px -10px 24px var(--light);
+    }
+    .links.open { display: flex; }          /* JS adds "open" */
+    .links a.active {                       /* active link looks pressed */
+      border-radius: 999px;
+      box-shadow: inset 3px 3px 6px var(--dark), inset -3px -3px 6px var(--light);
+    }
+  }
+
+  /* keyboard users: show a clear outline */
+  a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }

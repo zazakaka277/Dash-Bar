@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Neumorphic Navbar</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<!-- ---------- HTML: just a logo, a list of links, and a button ---------- -->
+<nav class="navbar">
+
+  <a href="#home" class="logo">
+    <span class="logo-icon"></span>
+    Brandly
+  </a>
+
+  <ul class="links" id="links">
+    <div class="highlight" id="highlight"></div>
+    <li><a href="#home" class="active">Home</a></li>
+    <li><a href="#products">Products</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+    <li><a href="#blog">Blog</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+
+  <button class="btn">Get started</button>
+
+  <button class="menu-btn" id="menuBtn" aria-label="Open menu">☰</button>
+</nav>
+
+<script>
+  // ---------- JavaScript: 3 small jobs ----------
+
+  const linksBox  = document.getElementById("links");
+  const highlight = document.getElementById("highlight");
+  const allLinks  = document.querySelectorAll(".links a");
+  const menuBtn   = document.getElementById("menuBtn");
+
+  // JOB 1: move the highlight behind a given link
+  function moveHighlightTo(link) {
+    highlight.style.left  = link.parentElement.offsetLeft + "px";
+    highlight.style.width = link.parentElement.offsetWidth + "px";
+  }
+
+  // JOB 2: handle clicks on every link (hover only changes text color in CSS)
+  allLinks.forEach(function (link) {
+
+    // clicking: make this link the "active" one
+    link.addEventListener("click", function (event) {
+      event.preventDefault();   // remove this line in a real site so links work
+      document.querySelector(".links a.active").classList.remove("active");
+      link.classList.add("active");
+      moveHighlightTo(link);
+      linksBox.classList.remove("open");   // close mobile menu
+    });
+  });
+
+  // JOB 3: open / close the mobile menu
+  menuBtn.addEventListener("click", function () {
+    linksBox.classList.toggle("open");
+  });
+
+  // place the highlight on the first link when the page loads
+  window.addEventListener("load", function () {
+    moveHighlightTo(document.querySelector(".links a.active"));
+  });
+  window.addEventListener("resize", function () {
+    moveHighlightTo(document.querySelector(".links a.active"));
+  });
+</script>
+
+</body>
+</html>
